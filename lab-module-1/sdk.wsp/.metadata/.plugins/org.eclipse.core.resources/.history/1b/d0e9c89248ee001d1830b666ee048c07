@@ -1,0 +1,144 @@
+///////////////////////////////////////////////////////////////////////////////
+/// \file main_bm.c
+/// \date 04/23/2020
+/// \author JG
+/// \brief edaduino target software main file for bare metal system
+/// \details mod. 04/25/2022
+//////////////////////////////////////////////////////////////////////////////
+
+#include "csp.h"
+#include "cust_print.h"
+#include "uart_drv.h"
+#include <stdio.h>
+#include <stdlib.h>
+
+///////////////////////////////////////////////////////////////////////////////
+/// \brief UART send string
+/// \param str `\0` terminated string to be put out on UART serial out
+void uart_send_string(const char *str)
+{
+    char *buf = (char *)str;
+    volatile uint8_t *thr = (void *)(UART_BASE_ADDR + UART_OFFSET_THR);
+    // Task TODO: >>>
+    /* Implement the `uart_send_string`
+      HINTS:
+        - We need to check for the string termination character `\0` to break writing characters to the THR register
+        - We need to check the line status register (LSR) of our UART peripheral for "THR empty"
+        - You can poll the LSR to "busy wait" for an empty THR
+        - do not forget to make your peripheral memory references "volatile"
+    */
+    volatile uint8_t *lsr = (void *)(UART_BASE_ADDR + UART_OFFSET_THR); //<-- this needs fixing, too
+    custom_print_string((void *)ETISS_LOGGER_ADDR, "uartout\n");
+    int i=0;
+    while(buf[i] !='\0') // when still writing into thr
+    {
+    	while(*lsr & 0b00100000==0b00100000 && buf[1]=='\0') // if 5. bit  set and writing over
+    	{
+    		*thr =buf[i];
+    		i++;
+    	}
+    }
+    *thr = '\n';
+    // ...
+    // <<< Task TODO
+}
+
+extern uart_t uart0;
+///> 'holds' peripheral data in form of registers and callback pointers
+
+#define BUF_SIZE 100
+
+/// \brief Custom system timer interrupt handler. Source is the CLINT peripheral
+/// configured by the board support package
+static void systemtimer_irqhandler(void)
+{
+    custom_print_string((void *)ETISS_LOGGER_ADDR, "System timer callback taken\n");
+}
+
+volatile int uart_irq_flag = 0; ///< This is the interrupt messaging flag
+
+/// \brief Custom uart interrupt handler. Source is the UART peripheral
+/// interrupt
+static void uart_irqhandler(void)
+{
+    custom_print_string((void *)ETISS_LOGGER_ADDR, "UART interrupt callback taken\n");
+    // Task TODO: >>>
+    /* Find a way to determine the interrupt type and message the
+      wfi_uart() that a "received data available" interrupt was fired */
+    // ..
+    // <<< Task TODO
+
+    if(*(uart0.iir_) & UART_IIR_RECEIVED_DATA_AVAILABLE)  {
+     uart_irq_flag=1;
+
+    }
+
+
+}
+
+void wfi_uart(void)
+{
+    // This is a very bad implementation of a "Wait for Interrupt".
+    // However, the WFI does the job of syncing up the application with
+    // an asynchronous event, such as the UART interrupt. If this software would
+    // employ an Operating System (OS) the WFI calling task/thread could
+    // instead of blocking execution yield itself to the scheduler,  i.e. let
+    // another waiting task resume or take over until the waited for event occurs.
+    uart_irq_flag = 0;
+    while (!uart_irq_flag)
+    {
+        asm(""); // forces optimization-agnostic busy wait
+    }
+}
+
+int main()
+{
+    unsigned char buf[BUF_SIZE]; // This is the input buffer
+
+    csp_init_t cfg = {};
+    cfg.systemtimer_us = 100000;
+    cfg.systemtimer_callback = systemtimer_irqhandler;
+    cfg.uart_callback = uart_irqhandler;
+    csp_init(&cfg);
+
+    static const char *_s = "From stdio!\n";
+    printf("Hello World! %s", _s);
+    custom_print_string((void *)ETISS_LOGGER_ADDR, "Hello World! From ETISS!\n");
+
+    // Task TODO: >>>
+    /* Enable the "Received Data Available" Interrupt in the Uart IER register */
+     uart0.ops_->enable_interrupt(&uart0,UART_IER_RECEIVED_DATA_AVAILABLE );
+
+
+
+    // <<< Task TODO
+
+    // UART input mirror
+    while (1)
+    {
+        int i = 0;
+
+        // Task TODO: >>>
+        wfi_uart();
+
+        //while ((*(uart0.lsr_) & 0x1) == 0)
+        //{
+            // busy wait for input data
+           // asm("nop");
+        //}
+        /* Replace the busy poll-wait with the wfi_uart() */
+        // ..
+        // <<< Task TODO
+
+        while ((*(uart0.lsr_) & 0x1) && i < (BUF_SIZE - 1))
+        {
+            // check the overflow flag, i.e. unread input data
+            // break if the read buffer overflows
+            buf[i++] = *uart0.rbr_;
+        }
+        buf[i] = '\0';
+        uart_send_string((const char *)buf);
+    }
+
+    return 0;
+}

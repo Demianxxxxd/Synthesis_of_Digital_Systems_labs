@@ -1,0 +1,281 @@
+///////////////////////////////////////////////////////////////////////////////
+/// \file main_os.c
+/// \date 04/14/2021
+/// \author JG
+/// \brief edaduino target software main file with FreeRTOS support
+/// \details mod. 04/25/2022
+//////////////////////////////////////////////////////////////////////////////
+
+#include <stdlib.h>
+#include <stdio.h>
+#include "csp.h"
+#include "cust_print.h"
+#include "uart_drv.h"
+
+#include <FreeRTOS.h>
+#include <task.h>
+#include <semphr.h>
+
+TaskHandle_t taskhandle_uart_receiver = NULL;
+TaskHandle_t taskhandle_uart_transmitter = NULL;
+TaskHandle_t taskhandle_main = NULL;
+
+extern uart_t uart0;
+///> 'holds' peripheral data in form of registers and callback pointers
+
+#define BUF_SIZE 100
+
+/// \brief Custom system timer interrupt handler. Source is the CLINT peripheral
+/// configured by the board support package
+static void systemtimer_irqhandler(void)
+{
+    custom_print_string((void *)ETISS_LOGGER_ADDR, "System timer callback taken\n");
+}
+
+/// \brief Custom uart interrupt handler. Source is the UART peripheral interrupt
+static void uart_irqhandler(void)
+{
+    custom_print_string((void *)ETISS_LOGGER_ADDR, "UART interrupt callback taken\n");
+    // Task TODO: >>>
+    /* Find a way to determine the interrupt type and message the
+     * wfi_uart() that a "received data available" interrupt was fired
+     * Look up the FreeRTOS documentation API reference Section "Direct To Task Notifications"
+     * at: https://www.freertos.org/RTOS-task-notification-API.html w.r.t notifying a waiting
+     * Task from within an Interrupt Service Routine (ISR). Hint: don't forget to "portYIELD_FROM_ISR(..)"
+     * after sending the notification.
+     */
+    // ..
+
+    if (*uart0.iir_ & UART_IIR_RECEIVED_DATA_AVAILABLE)
+    {
+    //uart_irq_flag=1;
+    //uint32_t notified_value ;
+    //xTaskNotifyWait (0x00 , -1 , & notified_value , portMAX_DELAY ) ;
+    //xTaskNotify(taskhandle_uart_transmitter,0,eNoAction);
+    xTaskNotifyFromISR(taskhandle_uart_receiver,0,&taskhandle_uart_transmitter);
+    }
+
+    portYIELD_FROM_ISR(taskhandle_uart_transmitter);
+
+
+    // <<< Task TODO
+
+
+
+}
+
+uint32_t wfi_uart(void)
+{
+    /* Now, with a Real Time Operating System we can do better!
+     * Look up the FreeRTOS documentation API reference Section "Direct To Task Notifications"
+     * at: https://www.freertos.org/RTOS-task-notification-API.html w.r.t letting a Task wait
+     *      * wfi_uart(void) should return the notified value
+     */
+    uint32_t notified_value;
+    // Task TODO >>
+    // replace the while(1){} with the correct API function
+    //while (1)
+    //{
+    //}
+    // Task TODO <<<
+    ulTaskNotifyTake(portMAX_DELAY, & notified_value);
+    //notified_value = ulTaskNotifyTake(pdTRUE, portMAX_DELAY);
+
+
+
+
+    return (notified_value);
+}
+
+///\brief shared memory struct wiht ringbuffer states
+typedef struct SMEM
+{
+    uint8_t mem[BUF_SIZE];
+    ///< buffer memory
+    size_t size;
+    ///< buffer total size in bytes
+    int rdx;
+    ///< receive index: a receiving task shall increment
+    int tdx;
+    ///< transmit index: a transmitting task shall increment on sending a char
+    /// and transmit until receive index idx is reached (chasing send)
+    SemaphoreHandle_t mutex;
+    ///< mutex to enable protection of shared resources, accessors must take
+    /// before altering any states in this struct
+} shared_memory_t;
+
+///\brief shared memory struct constructor
+shared_memory_t *make_shared_memory(void)
+{
+    custom_print_string((void *)ETISS_LOGGER_ADDR, " ok.\nallocating shared memory struct...");
+    shared_memory_t *p = pvPortMalloc(sizeof *p);
+    if (p != NULL)
+    {
+        p->size = BUF_SIZE;
+        p->rdx = 0;
+        p->tdx = 0;
+        p->mutex = xSemaphoreCreateMutex();
+    }
+    return p;
+}
+
+static void task_uart_receiver(void *pvParameters)
+{
+
+    custom_print_string((void *)ETISS_LOGGER_ADDR, "uart receiver task started!\n");
+
+    shared_memory_t *shared = (shared_memory_t *)pvParameters; ///< used shared memory
+
+    xSemaphoreGive(shared->mutex);
+
+    // Task TODO: >>>
+    /* Enable the "Received Data Available" Interrupt in the Uart IER register
+     */
+    // ..
+    // <<< Task TODO
+
+    uart0.ops_->enable_interrupt(&uart0,UART_IER_RECEIVED_DATA_AVAILABLE );
+
+
+    while (1)
+    {
+
+        uint32_t notification;
+
+        notification = wfi_uart(); /* blocking! */
+
+        if (xSemaphoreTake(shared->mutex, portMAX_DELAY) == pdTRUE)
+        {
+            while (*uart0.lsr_ & 0x1)
+            {
+                // check the overflow flag, i.e. unread input data
+                // break if the read buffer overflows
+                shared->mem[shared->rdx++] = *(uart0.rbr_);
+                if (shared->rdx == shared->tdx)
+                    break;
+                if (shared->rdx >= shared->size)
+                {
+                    shared->rdx = 0;
+                }
+            }
+            xSemaphoreGive(shared->mutex);
+            // Task TODO: >>>
+            /* Find a way to notify the transmitter task about the new workload */
+
+
+            xTaskNotify (taskhandle_uart_transmitter, 0 , eNoAction );
+
+
+            // ..
+            // Task TODO <<<
+        }
+    }
+}
+
+static void task_uart_transmitter(void *pvParameters)
+{
+
+    custom_print_string((void *)ETISS_LOGGER_ADDR, "uart transmitter task started!\n");
+
+    shared_memory_t *shared = (shared_memory_t *)pvParameters; ///< used shared memory
+
+    while (1)
+    {
+        // Task TODO: >>>
+        /* Find a way to wait for a notification from task_uart_receiver, that a new message is present */
+        // .. replace the while(1)
+        //while (1)
+        //{
+        //}
+
+
+    	xTaskNotifyWait (0x00 , -1 , 0 , portMAX_DELAY ) ;
+
+        // Task TODO <<<
+
+        if (xSemaphoreTake(shared->mutex, portMAX_DELAY) == pdTRUE)
+        {
+            do {
+                printf("%c", shared->mem[shared->tdx++]);
+                if (shared->tdx >= shared->size)
+                    shared->tdx = 0;
+            } while (shared->tdx != shared->rdx);
+	    printf("\n"); // force a flush()
+        }
+        xSemaphoreGive(shared->mutex);
+    }
+}
+
+static void task_main(void *pvParameters)
+{
+    custom_print_string((void *)ETISS_LOGGER_ADDR, "main task started!\n");
+
+    while (1)
+    {
+        /* We are busy here, i.e., doing nothing but occupying CPU non-stop.
+         * However, the other tasks will not starve. Reason is the RTOS is configured
+         * to be preemptive and this thread has a lower priority than the uart
+         * threads and all threads have to yield to an interrupt. We could use this
+         * "main task" for any ordinary computation while our hardware stuff is ensured
+         * to be served.
+         */
+        asm volatile("nop");
+    }
+}
+
+int main()
+{
+    BaseType_t ret;
+
+    csp_init_t cfg = {};
+    cfg.systemtimer_us = 100000;
+    cfg.systemtimer_callback = systemtimer_irqhandler;
+    cfg.uart_callback = uart_irqhandler;
+
+    csp_init(&cfg);
+
+    custom_print_string((void *)ETISS_LOGGER_ADDR, "creating shared memory...");
+    shared_memory_t *shared = make_shared_memory();
+
+    custom_print_string((void *)ETISS_LOGGER_ADDR, " ok.\ncreating mutex for shared memory...");
+
+    custom_print_string((void *)ETISS_LOGGER_ADDR, " ok.\ncreating uart receiver task...");
+    ret = xTaskCreate(task_uart_receiver, "tUartReceive",
+                      configMINIMAL_STACK_SIZE * 3, /* The size of the stack to allocate to the task. */
+                      (void *)shared,       /* The parameter passed to the task: shared memory for message buffer. */
+                      tskIDLE_PRIORITY + 2, /* The priority assigned to the task. */
+                      &taskhandle_uart_receiver /* Variable where the task handle is stored: needed for notification */
+    );
+    if (ret != pdPASS)
+        return -1;
+
+    custom_print_string((void *)ETISS_LOGGER_ADDR, " ok.\ncreating uart transmitter task...");
+    ret =
+        xTaskCreate(task_uart_transmitter, "tUartTransmit",
+                    configMINIMAL_STACK_SIZE * 3, /* The size of the stack to allocate to the task. */
+                    (void *)shared,       /* The parameter passed to the task: shared memory for message buffer. */
+                    tskIDLE_PRIORITY + 2, /* The priority assigned to the task. */
+                    &taskhandle_uart_transmitter /* Variable where the task handle is stored: needed for notification */
+        );
+    if (ret != pdPASS)
+        return -1;
+
+    custom_print_string((void *)ETISS_LOGGER_ADDR, " ok.\ncreating main task...");
+    ret = xTaskCreate(task_main, "tMain",
+                      configMINIMAL_STACK_SIZE * 3, /* The size of the stack to allocate to the task. */
+                      NULL, tskIDLE_PRIORITY,       /* The priority assigned to the task. This is a very low one.
+                  Kernel will preempt this task once a higher one becomes ready*/
+                      &taskhandle_main /* We don't need a handle here since this is just doing some simple heartbeat */
+    );
+    if (ret != pdPASS)
+        return -1;
+
+    uint32_t x = xPortGetFreeHeapSize();
+    custom_print_string((void *)ETISS_LOGGER_ADDR, " ok.\nremaining heap: bytes ...");
+    custom_print_hex_int32((void *)ETISS_LOGGER_ADDR, x);
+
+    custom_print_string((void *)ETISS_LOGGER_ADDR, " ok.\nstart kernel.\n");
+    vTaskStartScheduler();
+
+    vSemaphoreDelete(shared->mutex);
+}

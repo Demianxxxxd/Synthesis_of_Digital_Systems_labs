@@ -1,0 +1,4 @@
+/usr/local/labs/SDS/ST23/ge86qud/lab-module-1/sw/CMakeFiles/rebuild_cache.dir
+/usr/local/labs/SDS/ST23/ge86qud/lab-module-1/sw/CMakeFiles/edit_cache.dir
+/usr/local/labs/SDS/ST23/ge86qud/lab-module-1/sw/CMakeFiles/os.elf.dir
+/usr/local/labs/SDS/ST23/ge86qud/lab-module-1/sw/CMakeFiles/bm.elf.dir
