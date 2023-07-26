@@ -1,0 +1,12 @@
+#-----------------------------------------------------------
+# Vivado v2019.1 (64-bit)
+# SW Build 2552052 on Fri May 24 14:47:09 MDT 2019
+# IP Build 2548770 on Fri May 24 18:01:18 MDT 2019
+# Start of session at: Mon May 22 16:34:34 2023
+# Process ID: 171070
+# Current directory: /nas/ei/share/TUEIEDA/LabSDS/ST23/ge86qud/lab-module-2/p1_getting_started/lab1/fir_prj/solution1/impl/ip
+# Command line: vivado -notrace -mode batch -source run_ippack.tcl
+# Log file: /nas/ei/share/TUEIEDA/LabSDS/ST23/ge86qud/lab-module-2/p1_getting_started/lab1/fir_prj/solution1/impl/ip/vivado.log
+# Journal file: /nas/ei/share/TUEIEDA/LabSDS/ST23/ge86qud/lab-module-2/p1_getting_started/lab1/fir_prj/solution1/impl/ip/vivado.jou
+#-----------------------------------------------------------
+source run_ippack.tcl -notrace

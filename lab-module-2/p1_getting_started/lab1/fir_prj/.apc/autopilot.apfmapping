@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<autopilotfilemapping:AutoPilotFileMapping xmlns:autopilotfilemapping="www.autoesl.com/autopilotfilemapping">
+  <source>
+    <originFiles name="fir.c" path="/nas/ei/share/TUEIEDA/LabSDS/ST23/ge86qud/lab-module-2/p1_getting_started/lab1/fir.c"/>
+  </source>
+  <testbench>
+    <originFiles name="fir_test.c" path="/nas/ei/share/TUEIEDA/LabSDS/ST23/ge86qud/lab-module-2/p1_getting_started/lab1/fir_test.c"/>
+    <originFiles name="out.gold.dat" path="/nas/ei/share/TUEIEDA/LabSDS/ST23/ge86qud/lab-module-2/p1_getting_started/lab1/out.gold.dat"/>
+  </testbench>
+</autopilotfilemapping:AutoPilotFileMapping>

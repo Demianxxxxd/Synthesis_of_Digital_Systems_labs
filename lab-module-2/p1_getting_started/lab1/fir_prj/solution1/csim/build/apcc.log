@@ -1,0 +1,6 @@
+INFO: [HLS 200-10] Running '/nfs/tools/xilinx/Vivado/2019.1/bin/unwrapped/lnx64.o/apcc'
+INFO: [HLS 200-10] For user 'ge86qud' on host 'prakt7.regent.e-technik.tu-muenchen.de' (Linux_x86_64 version 5.4.0-148-generic) on Mon May 22 15:25:29 CEST 2023
+INFO: [HLS 200-10] On os Ubuntu 20.04.6 LTS
+INFO: [HLS 200-10] In directory '/nas/ei/share/TUEIEDA/LabSDS/ST23/ge86qud/lab-module-2/p1_getting_started/lab1/fir_prj/solution1/csim/build'
+INFO: [APCC 202-3] Tmp directory is /tmp/apcc_db_ge86qud/1557871684761929384433
+INFO: [APCC 202-1] APCC is done.

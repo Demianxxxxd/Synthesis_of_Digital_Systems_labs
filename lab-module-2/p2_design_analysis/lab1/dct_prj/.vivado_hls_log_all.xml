@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vivadoHLSLog:LogRoot xmlns:vivadoHLSLog="www.xilinx.com/vivadoHLSLog">
+  <errorLogs>
+    <logs>
+      <synLog/>
+    </logs>
+  </errorLogs>
+  <warningLogs>
+    <logs>
+      <synLog>
+        <logs message="WARNING: [SYN 201-107] Renaming port name 'dct/output' to 'dct/output_r' to avoid the conflict with HDL keywords or other object names." projectName="dct_prj" solutionName="solution6" date="2023-05-23T10:07:39.027+0200" type="Warning"/>
+        <logs message="WARNING: [SYN 201-107] Renaming port name 'dct/input' to 'dct/input_r' to avoid the conflict with HDL keywords or other object names." projectName="dct_prj" solutionName="solution6" date="2023-05-23T10:07:39.019+0200" type="Warning"/>
+        <logs message="WARNING: [XFORM 203-631] Renaming function 'Loop_Col_DCT_Loop_proc' to 'Loop_Col_DCT_Loop_pr' (dct.cpp:48:23)" projectName="dct_prj" solutionName="solution6" date="2023-05-23T10:07:38.996+0200" type="Warning"/>
+        <logs message="WARNING: [XFORM 203-631] Renaming function 'Loop_Row_DCT_Loop_proc' to 'Loop_Row_DCT_Loop_pr' (dct.cpp:48:23)" projectName="dct_prj" solutionName="solution6" date="2023-05-23T10:07:38.832+0200" type="Warning"/>
+        <logs message="WARNING: [XFORM 203-631] Renaming function 'Loop_Xpose_Col_Outer_Loop_proc' to 'Loop_Xpose_Col_Outer' (dct.cpp:92:9)" projectName="dct_prj" solutionName="solution6" date="2023-05-23T10:07:38.828+0200" type="Warning"/>
+        <logs message="WARNING: [XFORM 203-631] Renaming function 'Loop_Xpose_Row_Outer_Loop_proc' to 'Loop_Xpose_Row_Outer' (dct.cpp:81:9)" projectName="dct_prj" solutionName="solution6" date="2023-05-23T10:07:38.824+0200" type="Warning"/>
+        <logs message="WARNING: [XFORM 203-542] Cannot flatten a loop nest 'Col_DCT_Loop' (dct.cpp:87:29) in function 'Loop_Col_DCT_Loop_proc' : &#xA;&#xA;&#xA;the outer loop is not a perfect loop." projectName="dct_prj" solutionName="solution6" date="2023-05-23T10:07:38.819+0200" type="Warning"/>
+        <logs message="WARNING: [XFORM 203-542] Cannot flatten a loop nest 'Row_DCT_Loop' (dct.cpp:76:28) in function 'Loop_Row_DCT_Loop_proc' : &#xA;&#xA;&#xA;the outer loop is not a perfect loop." projectName="dct_prj" solutionName="solution6" date="2023-05-23T10:07:38.789+0200" type="Warning"/>
+      </synLog>
+    </logs>
+  </warningLogs>
+</vivadoHLSLog:LogRoot>

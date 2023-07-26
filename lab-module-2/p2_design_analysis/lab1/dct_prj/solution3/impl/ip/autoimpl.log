@@ -1,0 +1,14 @@
+
+****** Vivado v2019.1 (64-bit)
+  **** SW Build 2552052 on Fri May 24 14:47:09 MDT 2019
+  **** IP Build 2548770 on Fri May 24 18:01:18 MDT 2019
+    ** Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
+
+source run_ippack.tcl -notrace
+bad lexical cast: source type value could not be interpreted as target
+    while executing
+"rdi::set_property core_revision 2305221838 {component component_1}"
+    invoked from within
+"set_property core_revision $Revision $core"
+    (file "run_ippack.tcl" line 815)
+INFO: [Common 17-206] Exiting Vivado at Mon May 22 18:38:56 2023...
