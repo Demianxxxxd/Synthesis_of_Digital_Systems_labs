@@ -1,0 +1,263 @@
+{"sourceFile": [{
+      "name": "",
+      "directive": [
+        {
+          "functionName": "AddRoundKey",
+          "label": "AddRoundKey_label0",
+          "functionLabel": "",
+          "pragma": {"name": "UNROLL"}
+        },
+        {
+          "functionName": "AddRoundKey",
+          "label": "AddRoundKey_label1",
+          "functionLabel": "",
+          "pragma": {"name": "UNROLL"}
+        },
+        {
+          "functionName": "SubBytes",
+          "label": "SubBytes_label2",
+          "functionLabel": "",
+          "pragma": {"name": "UNROLL"}
+        },
+        {
+          "functionName": "SubBytes",
+          "label": "SubBytes_label3",
+          "functionLabel": "",
+          "pragma": {"name": "UNROLL"}
+        },
+        {
+          "functionName": "KeyExpansion",
+          "label": "KeyExpansion_label0",
+          "functionLabel": "",
+          "pragma": {"name": "UNROLL"}
+        },
+        {
+          "functionName": "Cipher",
+          "label": "",
+          "functionLabel": "",
+          "pragma": {"name": "INLINE"}
+        },
+        {
+          "functionName": "conv_1dTostate",
+          "label": "conv_1dTostate_label0",
+          "functionLabel": "",
+          "pragma": {"name": "UNROLL"}
+        },
+        {
+          "functionName": "conv_1dTostate",
+          "label": "conv_1dTostate_label1",
+          "functionLabel": "",
+          "pragma": {"name": "UNROLL"}
+        },
+        {
+          "functionName": "conv_stateTo1d",
+          "label": "conv_stateTo1d_label2",
+          "functionLabel": "",
+          "pragma": {"name": "UNROLL"}
+        },
+        {
+          "functionName": "conv_stateTo1d",
+          "label": "conv_stateTo1d_label3",
+          "functionLabel": "",
+          "pragma": {"name": "UNROLL"}
+        },
+        {
+          "functionName": "MixColumns",
+          "label": "MixColumns_label0",
+          "functionLabel": "",
+          "pragma": {"name": "UNROLL"}
+        },
+        {
+          "functionName": "KeyExpansion",
+          "label": "KeyExpansion_label1",
+          "functionLabel": "",
+          "pragma": {"name": "UNROLL"}
+        },
+        {
+          "functionName": "ShiftRows",
+          "label": "",
+          "functionLabel": "",
+          "pragma": {"name": "INLINE"}
+        },
+        {
+          "functionName": "AES_CTR_xcrypt_buffer",
+          "label": "AES_CTR_xcrypt_buffer_label5",
+          "functionLabel": "",
+          "pragma": {"name": "UNROLL"}
+        },
+        {
+          "functionName": "Cipher",
+          "label": "Cipher_label0",
+          "functionLabel": "",
+          "pragma": {"name": "INLINE"}
+        },
+        {
+          "functionName": "AES_CBC_decrypt_buffer",
+          "label": "AES_CBC_decrypt_buffer_label0",
+          "functionLabel": "",
+          "pragma": {"name": "UNROLL"}
+        },
+        {
+          "functionName": "AES_CBC_encrypt_buffer",
+          "label": "AES_CBC_encrypt_buffer_label1",
+          "functionLabel": "",
+          "pragma": {"name": "UNROLL"}
+        },
+        {
+          "functionName": "AES_CTR_xcrypt_buffer",
+          "label": "AES_CTR_xcrypt_buffer_label2",
+          "functionLabel": "",
+          "pragma": {"name": "UNROLL"}
+        },
+        {
+          "functionName": "XorWithIv",
+          "label": "XorWithIv_label3",
+          "functionLabel": "",
+          "pragma": {"name": "UNROLL"}
+        },
+        {
+          "functionName": "InvSubBytes",
+          "label": "InvSubBytes_label4",
+          "functionLabel": "",
+          "pragma": {"name": "UNROLL"}
+        },
+        {
+          "functionName": "InvSubBytes",
+          "label": "InvSubBytes_label5",
+          "functionLabel": "",
+          "pragma": {"name": "UNROLL"}
+        },
+        {
+          "functionName": "InvMixColumns",
+          "label": "InvMixColumns_label6",
+          "functionLabel": "",
+          "pragma": {"name": "UNROLL"}
+        },
+        {
+          "functionName": "xtime",
+          "label": "",
+          "functionLabel": "",
+          "pragma": {"name": "INLINE"}
+        },
+        {
+          "functionName": "InvCipher",
+          "label": "InvCipher_label8",
+          "functionLabel": "",
+          "pragma": {"name": "INLINE"}
+        },
+        {
+          "functionName": "AddRoundKey",
+          "label": "",
+          "functionLabel": "",
+          "pragma": {"name": "INLINE"}
+        },
+        {
+          "functionName": "SubBytes",
+          "label": "",
+          "functionLabel": "",
+          "pragma": {"name": "INLINE"}
+        },
+        {
+          "functionName": "_memcpy",
+          "label": "_memcpy_label9",
+          "functionLabel": "",
+          "pragma": {"name": "UNROLL"}
+        },
+        {
+          "functionName": "MixColumns",
+          "label": "",
+          "functionLabel": "",
+          "pragma": {"name": "INLINE"}
+        },
+        {
+          "functionName": "AES_ctx_set_iv",
+          "label": "",
+          "functionLabel": "",
+          "pragma": {"name": "INLINE"}
+        },
+        {
+          "functionName": "AES_init_ctx_iv",
+          "label": "",
+          "functionLabel": "",
+          "pragma": {"name": "INLINE"}
+        },
+        {
+          "functionName": "AES_init_ctx",
+          "label": "",
+          "functionLabel": "",
+          "pragma": {"name": "INLINE"}
+        },
+        {
+          "functionName": "InvMixColumns",
+          "label": "",
+          "functionLabel": "",
+          "pragma": {"name": "INLINE"}
+        },
+        {
+          "functionName": "InvSubBytes",
+          "label": "",
+          "functionLabel": "",
+          "pragma": {"name": "INLINE"}
+        },
+        {
+          "functionName": "conv_1dTostate",
+          "label": "",
+          "functionLabel": "",
+          "pragma": {"name": "INLINE"}
+        },
+        {
+          "functionName": "conv_stateTo1d",
+          "label": "",
+          "functionLabel": "",
+          "pragma": {"name": "INLINE"}
+        },
+        {
+          "functionName": "InvShiftRows",
+          "label": "",
+          "functionLabel": "",
+          "pragma": {"name": "INLINE"}
+        },
+        {
+          "functionName": "InvCipher",
+          "label": "",
+          "functionLabel": "",
+          "pragma": {"name": "INLINE"}
+        },
+        {
+          "functionName": "KeyExpansion",
+          "label": "",
+          "functionLabel": "",
+          "pragma": {
+            "name": "ARRAY_PARTITION",
+            "option": [
+              {
+                "name": "variable",
+                "value": "tempa",
+                "positionalBoolean": "4"
+              },
+              {
+                "name": "complete",
+                "value": "",
+                "positionalBoolean": "type"
+              },
+              {
+                "name": "dim",
+                "value": "1"
+              }
+            ]
+          }
+        },
+        {
+          "functionName": "AES_CTR_xcrypt_buffer",
+          "label": "",
+          "functionLabel": "",
+          "pragma": {"name": "INLINE"}
+        },
+        {
+          "functionName": "KeyExpansion",
+          "label": "",
+          "functionLabel": "",
+          "pragma": {"name": "INLINE"}
+        }
+      ]
+    }]}

@@ -1,0 +1,103 @@
+///////////////////////////////////////////////////////////////////////////////
+/// \file main_sw.c
+/// \date 11/15/2020
+/// \author JG
+/// \brief edaduino target software main file for bare metal system with tinyAES
+//////////////////////////////////////////////////////////////////////////////
+
+#include "csp.h"
+#include "cust_print.h"
+#include "uart_drv.h"
+#include <stdio.h>
+#include <stdlib.h>
+
+#include "aes/aes.h" // tinyAES software implementation
+
+#define MSG_ROWS (46)
+#define MSG_COLS (192)
+typedef uint8_t msg_t[MSG_ROWS][MSG_COLS];
+#include "data/msg.c"             // instantiates the encrpyted message of type msg_t
+uint8_t *msg_1d = (uint8_t *)msg; // (optional) use matrix as one-dimensional array, i.e. uint8_t msg[MSG_ROWS*MSG_COLS]
+
+const uint8_t key[16] = {
+    0x2b, 0x7e, 0x15, 0x16, 0x28, 0xae, 0xd2, 0xa6, 0xab, 0xf7, 0x15, 0x88, 0x09, 0xcf, 0x4f, 0x3c
+}; ///< (private/secure) key (In a real application, do not put this in plain source code)
+
+const uint8_t iv[16] = {
+    0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+}; ///< (public) key. Assume this got transmitted along the encrypted message
+
+//////////////////////////////////////////////////////////////////////////////
+/// \brief SysTick ISR
+static void systemtimer_irqhandler(void)
+{
+    custom_print_string((void *)ETISS_LOGGER_ADDR, "SysTick - 100ms\n");
+}
+
+//////////////////////////////////////////////////////////////////////////////
+/// \brief UART ISR
+static void uart_irqhandler(void)
+{
+    custom_print_string((void *)ETISS_LOGGER_ADDR, "UART interrupt callback taken\n");
+}
+
+//////////////////////////////////////////////////////////////////////////////
+/// \brief Bi-directional (Encrypt/Decrypt) using the software library (app/aes.h)
+/// \param msg Message as 1-dimensional byte-array, accepts msg_t format, too.
+/// \return amount of cycles spent for en-/decrypting the message
+uint32_t crypt_msg_sw(uint8_t *msg, const uint8_t *key, const uint8_t *iv)
+{
+    uint64_t cycle_cnt_start = 0, cycle_cnt_end = 0;
+    struct AES_ctx ctx;
+    /* TODO: Invoke the software en-/decrypt a msg_t data structure. Return the spent time for setup and actual
+     * en-/decryption Tips:
+     *  - AES_CTR_xcrypt_buffer(..) takes a AES_ctx struct instantiated by AES_init_ctx_iv(..) the key and the IV, a
+     * read-write byte-array buffer (message), and the length of the buffer to en-/decrypt.
+     *  - The IV is updated inside the AES_ctx struct within one call to AES_CTR_xcrypt_buffer(..)
+     *  - AES_CTR_xcrypt_buffer(..) takes messages with lengths of 16-Byte multiplicity
+     *  - Use get_cpu_cycles() from csp.h to retreive the current CPU cycle count */
+    //cycle_cnt_start = get_cpu_cycles();
+
+    // Initialization
+    AES_init_ctx_iv(&ctx, key, iv);
+
+    AES_CTR_xcrypt_buffer(&ctx, msg, MSG_ROWS * MSG_COLS);
+
+    //cycle_cnt_end = get_cpu_cycles();
+    return (cycle_cnt_end-cycle_cnt_start);
+}
+
+//////////////////////////////////////////////////////////////////////////////
+/// \brief Display the message. MSG_ROWS rows of MSG_COLS bytes
+/// \param msg Message as 2-dimensional byte-array in msg_t format.
+void display_msg(const msg_t msg)
+{
+    for (int i = 0; i < MSG_ROWS; ++i)
+    {
+        for (int k = 0; k < MSG_COLS; ++k)
+        {
+            printf("%c", msg[i][k]);
+        }
+        printf("\n");
+    }
+}
+
+int main()
+{
+    csp_init_t cfg = {};
+    cfg.systemtimer_us = 100000; // 100000us=100ms
+    cfg.systemtimer_callback = systemtimer_irqhandler;
+    cfg.uart_callback = uart_irqhandler;
+    cfg.aes_callback = NULL;
+    csp_init(&cfg);
+
+    uint32_t time_sw = 0;
+
+    time_sw = crypt_msg_sw(msg_1d, key, iv);
+    custom_print_string((void *)ETISS_LOGGER_ADDR, "tinyAES done. print message...\n");
+    display_msg(msg);
+
+    printf("SW - cycles %d\n", time_sw);
+
+    return 0;
+}

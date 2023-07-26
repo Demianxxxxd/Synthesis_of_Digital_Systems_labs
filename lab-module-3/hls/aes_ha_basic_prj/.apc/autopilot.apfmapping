@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<autopilotfilemapping:AutoPilotFileMapping xmlns:autopilotfilemapping="www.autoesl.com/autopilotfilemapping">
+  <source>
+    <originFiles name="aes_ha.h" path="/nas/ei/share/TUEIEDA/LabSDS/ST23/ge42beg/lab-module-3/hls/hls/basic/aes_ha.h"/>
+    <originFiles name="aes_ha.c" path="/nas/ei/share/TUEIEDA/LabSDS/ST23/ge42beg/lab-module-3/hls/hls/basic/aes_ha.c"/>
+    <originFiles name="aes.h" path="/nas/ei/share/TUEIEDA/LabSDS/ST23/ge42beg/lab-module-3/hls/c_src/aes.h"/>
+    <originFiles name="aes.c" path="/nas/ei/share/TUEIEDA/LabSDS/ST23/ge42beg/lab-module-3/hls/c_src/aes.c"/>
+  </source>
+  <testbench>
+    <originFiles name="aes_test.c" path="/nas/ei/share/TUEIEDA/LabSDS/ST23/ge42beg/lab-module-3/hls/testbench/aes_test.c"/>
+  </testbench>
+</autopilotfilemapping:AutoPilotFileMapping>

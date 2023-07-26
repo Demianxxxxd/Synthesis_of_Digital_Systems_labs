@@ -1,0 +1,207 @@
+////////////////////////////////////////////////////////////////////////////////
+/// \file main_hw.c
+/// \date 11/15/2020
+/// \author JG
+/// \brief edaduino target software main file for bare metal system with tinyAES
+////////////////////////////////////////////////////////////////////////////////
+
+#include "csp.h"
+#include "cust_print.h"
+#include "uart_drv.h"
+#include <stdio.h>
+#include <stdlib.h>
+
+#include "aes/aes.h"        // tinyAES software implementation
+#include "aes/aes_ha_drv.h" // custom driver for AES hardware accelerator
+
+#include "xaes_ha.h"    // automatically generated drivers (from HLS)
+#include "xaes_ha_hw.h" // "
+
+#include "timer_drv.h"
+
+XAes_ha iaes; ///< see xaes_ha.h type definitions.
+
+#define MSG_ROWS (46)
+#define MSG_COLS (192)
+typedef uint8_t msg_t[MSG_ROWS][MSG_COLS];
+#include "data/msg.c"             // instantiates the encrpyted message of type msg_t
+uint8_t *msg_1d = (uint8_t *)msg; // (optional) use matrix as one-dimensional array, i.e. uint8_t msg[MSG_ROWS*MSG_COLS]
+
+const uint8_t key[16] = {
+    0x2b, 0x7e, 0x15, 0x16, 0x28, 0xae, 0xd2, 0xa6, 0xab, 0xf7, 0x15, 0x88, 0x09, 0xcf, 0x4f, 0x3c
+}; ///< (private/secure) key (In a real application, do not put this in plain source code)
+
+const uint8_t iv[16] = {
+    0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+}; ///< (public) key. Assume this got transmitted along the encrypted message
+//////////////////////////////////////////////////////////////////////////////
+/// \brief SysTick ISR
+static void systemtimer_irqhandler(void)
+{
+    custom_print_string((void *)ETISS_LOGGER_ADDR, "SysTick - 100ms\n");
+}
+//////////////////////////////////////////////////////////////////////////////
+/// \brief UART ISR
+static void uart_irqhandler(void)
+{
+    custom_print_string((void *)ETISS_LOGGER_ADDR, "UART interrupt callback taken\n");
+}
+
+volatile int aes_done = 0;  ///< Global variable for simple messaging from AES Interrupt Service Routine to main
+                            ///< application that a "Done" event was issued from the hardware accelerator
+volatile int aes_ready = 0; ///< Global variable for simple messaging from AES Interrupt Service Routine to main
+                            ///< application a "Ready" event was issued from the hardware accelerator
+volatile int aes_iir = 0;   ///< Latest Interrupt indentification register state
+//////////////////////////////////////////////////////////////////////////////
+/// \brief AES_HA ISR
+static void aes_ha_irqhandler(void)
+{
+    aes_iir = XAes_ha_InterruptGetStatus(&iaes);
+    if (aes_iir & 1)
+    {
+        XAes_ha_InterruptClear(&iaes, 1);
+        aes_done = 1;
+        // custom_print_string((void *)ETISS_LOGGER_ADDR, "\nAES done\n");
+    }
+    if (aes_iir & 2)
+    {
+        XAes_ha_InterruptClear(&iaes, 2);
+        aes_ready = 1;
+        // custom_print_string((void *)ETISS_LOGGER_ADDR, "\nAES ready\n");
+    }
+}
+
+//////////////////////////////////////////////////////////////////////////////
+/// \brief Bi-directional (Encrypt/Decrypt) using the hardware accelerator
+/// \param msg Message as 1-dimensional byte-array, accepts msg_t format, too.
+/// \return amount of cycles spent for en-/decrypting the message
+uint32_t crypt_msg_hw(uint8_t *msg, const uint8_t *key, const uint8_t *iv)
+{
+    uint64_t cycle_cnt_start = 0, cycle_cnt_end = 0;
+    /* TODO: Invoke the hardware accelerator to en-/decrypt a msg_t data structure. Return the spent time for setup and
+     * actual en-/decryption Tips: - Byte-Wise driver functions (see xil/dma/xaes_ha.h) take a pointer to a byte-array
+     * and set, e.g., the 128 bit IV/Key. Word-wise driver functions interpret the given.
+     * pointer as 4-Byte elements. See (aes/aes_ha_drv.{c}'s sanity check for a minimal usage example.)
+     *   - After every en/-decryption, the IV-register in hardware is updated according to the CTR logic. The IV
+     * register inside the accelerator is updated after each block automatically.
+     *   - The Key-register is not updated by the hardware.
+     *   - Find a way to determine a finished 128 Bit encryption by interfacing with the AES_HA ISR. The Interrupt
+     * configuration is already implemented.
+     *   - Use get_cpu_cycles() from csp.h to retreive the current CPU cycle count */
+    uint8_t buffer[16] = {};
+    uint8_t encrypted_data[16] = {};
+    uint8_t iv_buf[16] = {};
+
+    cycle_cnt_start = get_cpu_cycles();
+
+    for (int i = 0; i < 16; i++)
+    	iv_buf[i] = iv[i];
+
+    XAes_ha_Write_key_Bytes(&iaes, 0, (char *)key, 16);
+
+    for (int i = 0; i < MSG_ROWS * MSG_COLS; i+=16)
+    {
+    	// After each encryption or decryption rewrite IV
+        XAes_ha_Write_iv_Bytes(&iaes, 0, iv_buf, 16);
+
+        // Write plaintext or cyphertext
+        for (int j = 0; j < 16; j++)
+        	buffer[j] = msg[i+j];
+//      XAes_ha_Write_inout_r_Bytes(&iaes, 0, buffer, 16);
+        XAes_ha_Set_in_r(&iaes, (uint32_t)buffer);
+        XAes_ha_Set_out_r(&iaes, (uint32_t)encrypted_data);
+        XAes_ha_Set_length_r(&iaes, 16);
+    	while (!XAes_ha_IsReady(&iaes));
+    		asm volatile("nop");
+
+    	XAes_ha_Start(&iaes);
+
+    	while (!XAes_ha_IsDone(&iaes));
+    		asm volatile("nop");
+
+    	// Readout encrypted or decrypted data
+//    	XAes_ha_Read_inout_r_Bytes(&iaes, 0, encrypted_data, 16);
+    	for (int j = 0; j < 16; j++)
+    		msg[i+j] = encrypted_data[j];
+
+    	// Update IV
+    	for (int j = 15; j >= 0; j--)
+    	{
+    		if (iv_buf[j] == 255)
+    		{
+    			iv_buf[j] = 0;
+    			continue;
+    		}
+    		iv_buf[j]++;
+    		break;
+    	}
+    }
+
+    cycle_cnt_end = get_cpu_cycles();
+    return (cycle_cnt_end - cycle_cnt_start);
+}
+
+//////////////////////////////////////////////////////////////////////////////
+/// \brief Display the message. MSG_ROWS rows of MSG_COLS bytes
+/// \param msg Message as 2-dimensional byte-array in msg_t format.
+void display_msg(const msg_t msg)
+{
+    /* TODO: Display the message with printf("%c", <character>)) as specified in the \brief */
+    for (int i = 0; i < MSG_ROWS; ++i)
+    {
+        for (int k = 0; k < MSG_COLS; ++k)
+        {
+            printf("%c", msg[i][k]);
+        }
+        printf("\n");
+    }
+}
+
+int main()
+{
+    csp_init_t cfg = {};
+    cfg.systemtimer_us = 100000; // 100000us=100ms
+    cfg.systemtimer_callback = systemtimer_irqhandler;
+    cfg.uart_callback = uart_irqhandler;
+    cfg.aes_callback = aes_ha_irqhandler;
+
+    csp_init(&cfg);
+
+    XAes_ha_Config iaescfg;
+    iaescfg.DeviceId = 0;
+    iaescfg.Slv_BaseAddress = AES_HA_BASE_ADDR; // from csp.h: 0x10001000;
+
+    int ret = XAes_ha_CfgInitialize(&iaes, &iaescfg);
+    if (ret != XST_SUCCESS)
+    {
+        custom_print_string((void *)ETISS_LOGGER_ADDR, "AES_HA init failed\n");
+        return 1;
+    }
+    custom_print_string((void *)ETISS_LOGGER_ADDR, "AES_HA init sucess\n");
+
+    XAes_ha_DisableAutoRestart(&iaes);
+    XAes_ha_InterruptEnable(&iaes, 1);    // Activate the AXI-Lite "Done" Interrupt Event
+    XAes_ha_InterruptEnable(&iaes, 2);    // Acitivate the AXI-Lite "Ready" Interrupt Event
+    XAes_ha_InterruptGlobalEnable(&iaes); // Enable Interrupt output (single line) from AES-HA
+
+    /* Note: The following block should report a passed functional test for the hardware accelerator */
+    if (aes_ha_test(&iaes) != 0)
+    {
+        custom_print_string((void *)ETISS_LOGGER_ADDR, "AES_HA functional test FAILED!\n");
+        return 1;
+    }
+    else
+    {
+        custom_print_string((void *)ETISS_LOGGER_ADDR, "AES_HA functional test PASSED!\n");
+    }
+
+    uint32_t time_hw = 0;
+
+    time_hw = crypt_msg_hw(msg_1d, key, iv);
+    custom_print_string((void *)ETISS_LOGGER_ADDR, "AES_HA done. print message...\n");
+    display_msg(msg);
+
+    printf("HW - cycles %d\n", time_hw);
+
+    return 0;
+}

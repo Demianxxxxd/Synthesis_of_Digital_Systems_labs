@@ -1,0 +1,17 @@
+#
+# An unexpected error has occurred (11)
+#
+Stack:
+/lib/x86_64-linux-gnu/libc.so.6(+0x43090) [0x7f3f1e1f4090]
+/nfs/tools/xilinx/Vivado/2019.1/lib/lnx64.o/libtcl8.5.so(+0xb9519) [0x7f3f19c6e519]
+/nfs/tools/xilinx/Vivado/2019.1/lib/lnx64.o/libtcl8.5.so(Tcl_ResetResult+0x10) [0x7f3f19c6ef20]
+/nfs/tools/xilinx/Vivado/2019.1/lib/lnx64.o/libtcl8.5.so(+0x34429) [0x7f3f19be9429]
+/nfs/tools/xilinx/Vivado/2019.1/lib/lnx64.o/libtcl8.5.so(Tcl_EvalEx+0x13) [0x7f3f19bea0a3]
+/nfs/tools/xilinx/Vivado/2019.1/lib/lnx64.o/libtcl8.5.so(Tcl_Eval+0x15) [0x7f3f19bea0c5]
+/nfs/tools/xilinx/Vivado/2019.1/lib/lnx64.o/libhls_support.so(+0x75930) [0x7f3f15d59930]
+/nfs/tools/xilinx/Vivado/2019.1/lib/lnx64.o/libtcl8.5.so(Tcl_Finalize+0x49) [0x7f3f19c29199]
+/nfs/tools/xilinx/Vivado/2019.1/lib/lnx64.o/libtcl8.5.so(Tcl_Exit+0x4a) [0x7f3f19c2934a]
+/nfs/tools/xilinx/Vivado/2019.1/lib/lnx64.o/libtcl8.5.so(Tcl_Main+0x24e) [0x7f3f19c5528e]
+/nfs/tools/xilinx/Vivado/2019.1/lib/lnx64.o/librdi_common.so(+0x84ac9b) [0x7f3f1f3bcc9b]
+/lib/x86_64-linux-gnu/libpthread.so.0(+0x8609) [0x7f3f181bb609]
+/lib/x86_64-linux-gnu/libc.so.6(clone+0x43) [0x7f3f1e2d0133]

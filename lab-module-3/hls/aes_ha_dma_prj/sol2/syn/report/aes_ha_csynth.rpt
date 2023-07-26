@@ -1,0 +1,359 @@
+
+
+================================================================
+== Vivado HLS Report for 'aes_ha'
+================================================================
+* Date:           Tue Jul  4 18:09:17 2023
+
+* Version:        2019.1 (Build 2552052 on Fri May 24 15:28:33 MDT 2019)
+* Project:        aes_ha_dma_prj
+* Solution:       sol2
+* Product family: spartan7
+* Target device:  xc7s15-ftgb196-2
+
+
+================================================================
+== Performance Estimates
+================================================================
++ Timing (ns): 
+    * Summary: 
+    +--------+-------+----------+------------+
+    |  Clock | Target| Estimated| Uncertainty|
+    +--------+-------+----------+------------+
+    |ap_clk  |  10.00|     8.750|        1.25|
+    +--------+-------+----------+------------+
+
++ Latency (clock cycles): 
+    * Summary: 
+    +-----+-----+-----+-----+---------+
+    |  Latency  |  Interval | Pipeline|
+    | min | max | min | max |   Type  |
+    +-----+-----+-----+-----+---------+
+    |    ?|    ?|    ?|    ?|   none  |
+    +-----+-----+-----+-----+---------+
+
+    + Detail: 
+        * Instance: 
+        +---------------------------------+----------------------+-----+-----+-----+-----+----------+
+        |                                 |                      |  Latency  |  Interval | Pipeline |
+        |             Instance            |        Module        | min | max | min | max |   Type   |
+        +---------------------------------+----------------------+-----+-----+-----+-----+----------+
+        |grp_KeyExpansion_fu_922          |KeyExpansion          |   92|   92|   88|   88| function |
+        |grp_AES_CTR_xcrypt_buffe_fu_932  |AES_CTR_xcrypt_buffe  |  115|  115|  108|  108| function |
+        +---------------------------------+----------------------+-----+-----+-----+-----+----------+
+
+        * Loop: 
+        +----------+-----+-----+----------+-----------+-----------+------+----------+
+        |          |  Latency  | Iteration|  Initiation Interval  | Trip |          |
+        | Loop Name| min | max |  Latency |  achieved |   target  | Count| Pipelined|
+        +----------+-----+-----+----------+-----------+-----------+------+----------+
+        |- Loop 1  |    ?|    ?|       260|          -|          -|     ?|    no    |
+        +----------+-----+-----+----------+-----------+-----------+------+----------+
+
+
+
+================================================================
+== Utilization Estimates
+================================================================
+* Summary: 
++-----------------+---------+-------+-------+------+-----+
+|       Name      | BRAM_18K| DSP48E|   FF  |  LUT | URAM|
++-----------------+---------+-------+-------+------+-----+
+|DSP              |        -|      -|      -|     -|    -|
+|Expression       |        -|      -|      0|  2082|    -|
+|FIFO             |        -|      -|      -|     -|    -|
+|Instance         |       15|      -|   3301|  8347|    -|
+|Memory           |        2|      -|      0|     0|    0|
+|Multiplexer      |        -|      -|      -|  2377|    -|
+|Register         |        -|      -|   2024|     -|    -|
++-----------------+---------+-------+-------+------+-----+
+|Total            |       17|      0|   5325| 12806|    0|
++-----------------+---------+-------+-------+------+-----+
+|Available        |       20|     20|  16000|  8000|    0|
++-----------------+---------+-------+-------+------+-----+
+|Utilization (%)  |       85|      0|     33|   160|    0|
++-----------------+---------+-------+-------+------+-----+
+
++ Detail: 
+    * Instance: 
+    +---------------------------------+----------------------+---------+-------+------+------+-----+
+    |             Instance            |        Module        | BRAM_18K| DSP48E|  FF  |  LUT | URAM|
+    +---------------------------------+----------------------+---------+-------+------+------+-----+
+    |grp_AES_CTR_xcrypt_buffe_fu_932  |AES_CTR_xcrypt_buffe  |        8|      0|  1121|  3741|    0|
+    |grp_KeyExpansion_fu_922          |KeyExpansion          |        1|      0|  1322|  3534|    0|
+    |aes_ha_mst_m_axi_U               |aes_ha_mst_m_axi      |        2|      0|   548|   700|    0|
+    |aes_ha_slv_s_axi_U               |aes_ha_slv_s_axi      |        4|      0|   310|   372|    0|
+    +---------------------------------+----------------------+---------+-------+------+------+-----+
+    |Total                            |                      |       15|      0|  3301|  8347|    0|
+    +---------------------------------+----------------------+---------+-------+------+------+-----+
+
+    * DSP48E: 
+    N/A
+
+    * Memory: 
+    +----------------+---------------------+---------+---+----+-----+------+-----+------+-------------+
+    |     Memory     |        Module       | BRAM_18K| FF| LUT| URAM| Words| Bits| Banks| W*Bits*Banks|
+    +----------------+---------------------+---------+---+----+-----+------+-----+------+-------------+
+    |ctx_Iv_U        |aes_ha_ctx_Iv        |        1|  0|   0|    0|    16|    8|     1|          128|
+    |ctx_RoundKey_U  |aes_ha_ctx_RoundKey  |        1|  0|   0|    0|   176|    8|     1|         1408|
+    +----------------+---------------------+---------+---+----+-----+------+-----+------+-------------+
+    |Total           |                     |        2|  0|   0|    0|   192|   16|     2|         1536|
+    +----------------+---------------------+---------+---+----+-----+------+-----+------+-------------+
+
+    * FIFO: 
+    N/A
+
+    * Expression: 
+    +--------------------------+----------+-------+---+----+------------+------------+
+    |       Variable Name      | Operation| DSP48E| FF| LUT| Bitwidth P0| Bitwidth P1|
+    +--------------------------+----------+-------+---+----+------------+------------+
+    |add_ln21_fu_977_p2        |     +    |      0|  0|  39|          32|           4|
+    |add_ln55_10_fu_1448_p2    |     +    |      0|  0|  40|          33|          33|
+    |add_ln55_11_fu_1488_p2    |     +    |      0|  0|  40|          33|          33|
+    |add_ln55_12_fu_1513_p2    |     +    |      0|  0|  40|          33|          33|
+    |add_ln55_13_fu_1538_p2    |     +    |      0|  0|  40|          33|          33|
+    |add_ln55_14_fu_1563_p2    |     +    |      0|  0|  40|          33|          33|
+    |add_ln55_15_fu_1588_p2    |     +    |      0|  0|  40|          33|          33|
+    |add_ln55_16_fu_1103_p2    |     +    |      0|  0|  40|          33|          33|
+    |add_ln55_17_fu_1073_p2    |     +    |      0|  0|  71|          64|          64|
+    |add_ln55_18_fu_1143_p2    |     +    |      0|  0|  40|          33|          33|
+    |add_ln55_19_fu_1183_p2    |     +    |      0|  0|  40|          33|          33|
+    |add_ln55_1_fu_1062_p2     |     +    |      0|  0|  71|          64|          64|
+    |add_ln55_20_fu_1223_p2    |     +    |      0|  0|  40|          33|          33|
+    |add_ln55_21_fu_1263_p2    |     +    |      0|  0|  40|          33|          33|
+    |add_ln55_22_fu_1303_p2    |     +    |      0|  0|  40|          33|          33|
+    |add_ln55_23_fu_1343_p2    |     +    |      0|  0|  40|          33|          33|
+    |add_ln55_24_fu_1383_p2    |     +    |      0|  0|  40|          33|          33|
+    |add_ln55_25_fu_1423_p2    |     +    |      0|  0|  40|          33|          33|
+    |add_ln55_26_fu_1463_p2    |     +    |      0|  0|  40|          33|          33|
+    |add_ln55_27_fu_1603_p2    |     +    |      0|  0|  40|          33|          33|
+    |add_ln55_28_fu_1618_p2    |     +    |      0|  0|  40|          33|          33|
+    |add_ln55_29_fu_1633_p2    |     +    |      0|  0|  40|          33|          33|
+    |add_ln55_2_fu_1128_p2     |     +    |      0|  0|  40|          33|          33|
+    |add_ln55_30_fu_1648_p2    |     +    |      0|  0|  40|          33|          33|
+    |add_ln55_31_fu_1663_p2    |     +    |      0|  0|  40|          33|          33|
+    |add_ln55_3_fu_1168_p2     |     +    |      0|  0|  40|          33|          33|
+    |add_ln55_4_fu_1208_p2     |     +    |      0|  0|  40|          33|          33|
+    |add_ln55_5_fu_1248_p2     |     +    |      0|  0|  40|          33|          33|
+    |add_ln55_6_fu_1288_p2     |     +    |      0|  0|  40|          33|          33|
+    |add_ln55_7_fu_1328_p2     |     +    |      0|  0|  40|          33|          33|
+    |add_ln55_8_fu_1368_p2     |     +    |      0|  0|  40|          33|          33|
+    |add_ln55_9_fu_1408_p2     |     +    |      0|  0|  40|          33|          33|
+    |add_ln55_fu_1088_p2       |     +    |      0|  0|  40|          33|          33|
+    |i_fu_1678_p2              |     +    |      0|  0|  39|          32|           5|
+    |sub_ln21_1_fu_1007_p2     |     -    |      0|  0|  35|           1|          28|
+    |sub_ln21_fu_991_p2        |     -    |      0|  0|  39|           5|          32|
+    |icmp_ln21_fu_1047_p2      |   icmp   |      0|  0|  18|          32|          32|
+    |ap_block_state196_io      |    or    |      0|  0|   2|           1|           1|
+    |or_ln55_10_fu_1478_p2     |    or    |      0|  0|  32|          32|           4|
+    |or_ln55_11_fu_1503_p2     |    or    |      0|  0|  32|          32|           4|
+    |or_ln55_12_fu_1528_p2     |    or    |      0|  0|  32|          32|           4|
+    |or_ln55_13_fu_1553_p2     |    or    |      0|  0|  32|          32|           4|
+    |or_ln55_14_fu_1578_p2     |    or    |      0|  0|  32|          32|           4|
+    |or_ln55_1_fu_1118_p2      |    or    |      0|  0|  32|          32|           2|
+    |or_ln55_2_fu_1158_p2      |    or    |      0|  0|  32|          32|           2|
+    |or_ln55_3_fu_1198_p2      |    or    |      0|  0|  32|          32|           3|
+    |or_ln55_4_fu_1238_p2      |    or    |      0|  0|  32|          32|           3|
+    |or_ln55_5_fu_1278_p2      |    or    |      0|  0|  32|          32|           3|
+    |or_ln55_6_fu_1318_p2      |    or    |      0|  0|  32|          32|           3|
+    |or_ln55_7_fu_1358_p2      |    or    |      0|  0|  32|          32|           4|
+    |or_ln55_8_fu_1398_p2      |    or    |      0|  0|  32|          32|           4|
+    |or_ln55_9_fu_1438_p2      |    or    |      0|  0|  32|          32|           4|
+    |or_ln55_fu_1056_p2        |    or    |      0|  0|  64|          64|           1|
+    |select_ln21_1_fu_1031_p3  |  select  |      0|  0|  28|           1|           1|
+    |select_ln21_fu_1023_p3    |  select  |      0|  0|  28|           1|          28|
+    +--------------------------+----------+-------+---+----+------------+------------+
+    |Total                     |          |      0|  0|2082|        1735|        1298|
+    +--------------------------+----------+-------+---+----+------------+------------+
+
+    * Multiplexer: 
+    +-----------------------+------+-----------+-----+-----------+
+    |          Name         |  LUT | Input Size| Bits| Total Bits|
+    +-----------------------+------+-----------+-----+-----------+
+    |ap_NS_fsm              |  1625|        370|    1|        370|
+    |ctx_Iv_address0        |   153|         34|    4|        136|
+    |ctx_Iv_ce0             |    15|          3|    1|          3|
+    |ctx_Iv_ce1             |     9|          2|    1|          2|
+    |ctx_Iv_d0              |    15|          3|    8|         24|
+    |ctx_Iv_we0             |    15|          3|    1|          3|
+    |ctx_Iv_we1             |     9|          2|    1|          2|
+    |ctx_RoundKey_address0  |    15|          3|    8|         24|
+    |ctx_RoundKey_address1  |    15|          3|    8|         24|
+    |ctx_RoundKey_ce0       |    15|          3|    1|          3|
+    |ctx_RoundKey_ce1       |    15|          3|    1|          3|
+    |ctx_RoundKey_we0       |     9|          2|    1|          2|
+    |ctx_RoundKey_we1       |     9|          2|    1|          2|
+    |i_0_reg_910            |     9|          2|   32|         64|
+    |iv_address0            |   149|         33|    4|        132|
+    |mst_ARADDR             |    85|         17|   32|        544|
+    |mst_AWADDR             |    85|         17|   32|        544|
+    |mst_WDATA              |    85|         17|    8|        136|
+    |mst_blk_n_AR           |     9|          2|    1|          2|
+    |mst_blk_n_AW           |     9|          2|    1|          2|
+    |mst_blk_n_B            |     9|          2|    1|          2|
+    |mst_blk_n_R            |     9|          2|    1|          2|
+    |mst_blk_n_W            |     9|          2|    1|          2|
+    +-----------------------+------+-----------+-----+-----------+
+    |Total                  |  2377|        529|  150|       2028|
+    +-----------------------+------+-----------+-----+-----------+
+
+    * Register: 
+    +----------------------------------------------+-----+----+-----+-----------+
+    |                     Name                     |  FF | LUT| Bits| Const Bits|
+    +----------------------------------------------+-----+----+-----+-----------+
+    |ap_CS_fsm                                     |  369|   0|  369|          0|
+    |empty_5_reg_1939                              |   64|   0|   64|          0|
+    |empty_reg_1915                                |   64|   0|   64|          0|
+    |grp_AES_CTR_xcrypt_buffe_fu_932_ap_start_reg  |    1|   0|    1|          0|
+    |i_0_reg_910                                   |   32|   0|   32|          0|
+    |i_reg_2188                                    |   32|   0|   32|          0|
+    |in_read_reg_1899                              |   32|   0|   32|          0|
+    |length_r_0_data_reg                           |   32|   0|   32|          0|
+    |length_r_0_vld_reg                            |    0|   0|    1|          1|
+    |mst_addr_10_reg_2111                          |   32|   0|   32|          0|
+    |mst_addr_11_reg_2128                          |   32|   0|   32|          0|
+    |mst_addr_12_reg_2134                          |   32|   0|   32|          0|
+    |mst_addr_13_reg_2140                          |   32|   0|   32|          0|
+    |mst_addr_14_reg_2146                          |   32|   0|   32|          0|
+    |mst_addr_15_reg_2152                          |   32|   0|   32|          0|
+    |mst_addr_16_reg_1994                          |   32|   0|   32|          0|
+    |mst_addr_17_reg_1982                          |   32|   0|   32|          0|
+    |mst_addr_18_reg_2006                          |   32|   0|   32|          0|
+    |mst_addr_19_reg_2018                          |   32|   0|   32|          0|
+    |mst_addr_1_reg_1976                           |   32|   0|   32|          0|
+    |mst_addr_20_reg_2030                          |   32|   0|   32|          0|
+    |mst_addr_21_reg_2042                          |   32|   0|   32|          0|
+    |mst_addr_22_reg_2054                          |   32|   0|   32|          0|
+    |mst_addr_23_reg_2066                          |   32|   0|   32|          0|
+    |mst_addr_24_reg_2083                          |   32|   0|   32|          0|
+    |mst_addr_25_reg_2100                          |   32|   0|   32|          0|
+    |mst_addr_26_reg_2117                          |   32|   0|   32|          0|
+    |mst_addr_27_reg_2158                          |   32|   0|   32|          0|
+    |mst_addr_28_reg_2164                          |   32|   0|   32|          0|
+    |mst_addr_29_reg_2170                          |   32|   0|   32|          0|
+    |mst_addr_2_reg_2000                           |   32|   0|   32|          0|
+    |mst_addr_30_reg_2176                          |   32|   0|   32|          0|
+    |mst_addr_31_reg_2182                          |   32|   0|   32|          0|
+    |mst_addr_3_reg_2012                           |   32|   0|   32|          0|
+    |mst_addr_4_reg_2024                           |   32|   0|   32|          0|
+    |mst_addr_5_reg_2036                           |   32|   0|   32|          0|
+    |mst_addr_6_reg_2048                           |   32|   0|   32|          0|
+    |mst_addr_7_reg_2060                           |   32|   0|   32|          0|
+    |mst_addr_8_reg_2077                           |   32|   0|   32|          0|
+    |mst_addr_9_reg_2094                           |   32|   0|   32|          0|
+    |mst_addr_reg_1988                             |   32|   0|   32|          0|
+    |out_read_reg_1893                             |   32|   0|   32|          0|
+    |p_cast35_reg_1944                             |   33|   0|   33|          0|
+    |p_cast36_reg_1920                             |   33|   0|   33|          0|
+    |text_0_1_reg_2323                             |    8|   0|    8|          0|
+    |text_0_reg_2072                               |    8|   0|    8|          0|
+    |text_10_1_reg_2273                            |    8|   0|    8|          0|
+    |text_10_reg_2223                              |    8|   0|    8|          0|
+    |text_11_1_reg_2268                            |    8|   0|    8|          0|
+    |text_11_reg_2228                              |    8|   0|    8|          0|
+    |text_12_1_reg_2263                            |    8|   0|    8|          0|
+    |text_12_reg_2233                              |    8|   0|    8|          0|
+    |text_13_1_reg_2258                            |    8|   0|    8|          0|
+    |text_13_reg_2238                              |    8|   0|    8|          0|
+    |text_14_1_reg_2253                            |    8|   0|    8|          0|
+    |text_14_reg_2243                              |    8|   0|    8|          0|
+    |text_15_1_reg_2328                            |    8|   0|    8|          0|
+    |text_1_1_reg_2318                             |    8|   0|    8|          0|
+    |text_1_reg_2089                               |    8|   0|    8|          0|
+    |text_2_1_reg_2313                             |    8|   0|    8|          0|
+    |text_2_reg_2106                               |    8|   0|    8|          0|
+    |text_3_1_reg_2308                             |    8|   0|    8|          0|
+    |text_3_reg_2123                               |    8|   0|    8|          0|
+    |text_4_1_reg_2303                             |    8|   0|    8|          0|
+    |text_4_reg_2193                               |    8|   0|    8|          0|
+    |text_5_1_reg_2298                             |    8|   0|    8|          0|
+    |text_5_reg_2198                               |    8|   0|    8|          0|
+    |text_6_1_reg_2293                             |    8|   0|    8|          0|
+    |text_6_reg_2203                               |    8|   0|    8|          0|
+    |text_7_1_reg_2288                             |    8|   0|    8|          0|
+    |text_7_reg_2208                               |    8|   0|    8|          0|
+    |text_8_1_reg_2283                             |    8|   0|    8|          0|
+    |text_8_reg_2213                               |    8|   0|    8|          0|
+    |text_9_1_reg_2278                             |    8|   0|    8|          0|
+    |text_9_reg_2218                               |    8|   0|    8|          0|
+    |tmp_3_reg_1968                                |   28|   0|   32|          4|
+    +----------------------------------------------+-----+----+-----+-----------+
+    |Total                                         | 2024|   0| 2029|          5|
+    +----------------------------------------------+-----+----+-----+-----------+
+
+
+
+================================================================
+== Interface
+================================================================
+* Summary: 
++--------------------+-----+-----+------------+--------------+--------------+
+|      RTL Ports     | Dir | Bits|  Protocol  | Source Object|    C Type    |
++--------------------+-----+-----+------------+--------------+--------------+
+|s_axi_slv_AWVALID   |  in |    1|    s_axi   |      slv     |    scalar    |
+|s_axi_slv_AWREADY   | out |    1|    s_axi   |      slv     |    scalar    |
+|s_axi_slv_AWADDR    |  in |    7|    s_axi   |      slv     |    scalar    |
+|s_axi_slv_WVALID    |  in |    1|    s_axi   |      slv     |    scalar    |
+|s_axi_slv_WREADY    | out |    1|    s_axi   |      slv     |    scalar    |
+|s_axi_slv_WDATA     |  in |   32|    s_axi   |      slv     |    scalar    |
+|s_axi_slv_WSTRB     |  in |    4|    s_axi   |      slv     |    scalar    |
+|s_axi_slv_ARVALID   |  in |    1|    s_axi   |      slv     |    scalar    |
+|s_axi_slv_ARREADY   | out |    1|    s_axi   |      slv     |    scalar    |
+|s_axi_slv_ARADDR    |  in |    7|    s_axi   |      slv     |    scalar    |
+|s_axi_slv_RVALID    | out |    1|    s_axi   |      slv     |    scalar    |
+|s_axi_slv_RREADY    |  in |    1|    s_axi   |      slv     |    scalar    |
+|s_axi_slv_RDATA     | out |   32|    s_axi   |      slv     |    scalar    |
+|s_axi_slv_RRESP     | out |    2|    s_axi   |      slv     |    scalar    |
+|s_axi_slv_BVALID    | out |    1|    s_axi   |      slv     |    scalar    |
+|s_axi_slv_BREADY    |  in |    1|    s_axi   |      slv     |    scalar    |
+|s_axi_slv_BRESP     | out |    2|    s_axi   |      slv     |    scalar    |
+|ap_clk              |  in |    1| ap_ctrl_hs |    aes_ha    | return value |
+|ap_rst_n            |  in |    1| ap_ctrl_hs |    aes_ha    | return value |
+|interrupt           | out |    1| ap_ctrl_hs |    aes_ha    | return value |
+|m_axi_mst_AWVALID   | out |    1|    m_axi   |      mst     |    pointer   |
+|m_axi_mst_AWREADY   |  in |    1|    m_axi   |      mst     |    pointer   |
+|m_axi_mst_AWADDR    | out |   32|    m_axi   |      mst     |    pointer   |
+|m_axi_mst_AWID      | out |    1|    m_axi   |      mst     |    pointer   |
+|m_axi_mst_AWLEN     | out |    8|    m_axi   |      mst     |    pointer   |
+|m_axi_mst_AWSIZE    | out |    3|    m_axi   |      mst     |    pointer   |
+|m_axi_mst_AWBURST   | out |    2|    m_axi   |      mst     |    pointer   |
+|m_axi_mst_AWLOCK    | out |    2|    m_axi   |      mst     |    pointer   |
+|m_axi_mst_AWCACHE   | out |    4|    m_axi   |      mst     |    pointer   |
+|m_axi_mst_AWPROT    | out |    3|    m_axi   |      mst     |    pointer   |
+|m_axi_mst_AWQOS     | out |    4|    m_axi   |      mst     |    pointer   |
+|m_axi_mst_AWREGION  | out |    4|    m_axi   |      mst     |    pointer   |
+|m_axi_mst_AWUSER    | out |    1|    m_axi   |      mst     |    pointer   |
+|m_axi_mst_WVALID    | out |    1|    m_axi   |      mst     |    pointer   |
+|m_axi_mst_WREADY    |  in |    1|    m_axi   |      mst     |    pointer   |
+|m_axi_mst_WDATA     | out |   32|    m_axi   |      mst     |    pointer   |
+|m_axi_mst_WSTRB     | out |    4|    m_axi   |      mst     |    pointer   |
+|m_axi_mst_WLAST     | out |    1|    m_axi   |      mst     |    pointer   |
+|m_axi_mst_WID       | out |    1|    m_axi   |      mst     |    pointer   |
+|m_axi_mst_WUSER     | out |    1|    m_axi   |      mst     |    pointer   |
+|m_axi_mst_ARVALID   | out |    1|    m_axi   |      mst     |    pointer   |
+|m_axi_mst_ARREADY   |  in |    1|    m_axi   |      mst     |    pointer   |
+|m_axi_mst_ARADDR    | out |   32|    m_axi   |      mst     |    pointer   |
+|m_axi_mst_ARID      | out |    1|    m_axi   |      mst     |    pointer   |
+|m_axi_mst_ARLEN     | out |    8|    m_axi   |      mst     |    pointer   |
+|m_axi_mst_ARSIZE    | out |    3|    m_axi   |      mst     |    pointer   |
+|m_axi_mst_ARBURST   | out |    2|    m_axi   |      mst     |    pointer   |
+|m_axi_mst_ARLOCK    | out |    2|    m_axi   |      mst     |    pointer   |
+|m_axi_mst_ARCACHE   | out |    4|    m_axi   |      mst     |    pointer   |
+|m_axi_mst_ARPROT    | out |    3|    m_axi   |      mst     |    pointer   |
+|m_axi_mst_ARQOS     | out |    4|    m_axi   |      mst     |    pointer   |
+|m_axi_mst_ARREGION  | out |    4|    m_axi   |      mst     |    pointer   |
+|m_axi_mst_ARUSER    | out |    1|    m_axi   |      mst     |    pointer   |
+|m_axi_mst_RVALID    |  in |    1|    m_axi   |      mst     |    pointer   |
+|m_axi_mst_RREADY    | out |    1|    m_axi   |      mst     |    pointer   |
+|m_axi_mst_RDATA     |  in |   32|    m_axi   |      mst     |    pointer   |
+|m_axi_mst_RLAST     |  in |    1|    m_axi   |      mst     |    pointer   |
+|m_axi_mst_RID       |  in |    1|    m_axi   |      mst     |    pointer   |
+|m_axi_mst_RUSER     |  in |    1|    m_axi   |      mst     |    pointer   |
+|m_axi_mst_RRESP     |  in |    2|    m_axi   |      mst     |    pointer   |
+|m_axi_mst_BVALID    |  in |    1|    m_axi   |      mst     |    pointer   |
+|m_axi_mst_BREADY    | out |    1|    m_axi   |      mst     |    pointer   |
+|m_axi_mst_BRESP     |  in |    2|    m_axi   |      mst     |    pointer   |
+|m_axi_mst_BID       |  in |    1|    m_axi   |      mst     |    pointer   |
+|m_axi_mst_BUSER     |  in |    1|    m_axi   |      mst     |    pointer   |
++--------------------+-----+-----+------------+--------------+--------------+
+

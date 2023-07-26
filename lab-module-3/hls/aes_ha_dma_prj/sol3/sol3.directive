@@ -1,0 +1,47 @@
+<AutoPilot:ProjectResources xmlns:AutoPilot="com.autoesl.autopilot.ui.directiveView">
+    <sourceFile name="">
+        <directive functionName="AddRoundKey" label="AddRoundKey_label0" functionLabel="">
+            <pragma name="UNROLL"/>
+        </directive>
+        <directive functionName="AddRoundKey" label="AddRoundKey_label1" functionLabel="">
+            <pragma name="UNROLL"/>
+        </directive>
+        <directive functionName="SubBytes" label="SubBytes_label2" functionLabel="">
+            <pragma name="UNROLL"/>
+        </directive>
+        <directive functionName="SubBytes" label="SubBytes_label3" functionLabel="">
+            <pragma name="UNROLL"/>
+        </directive>
+        <directive functionName="KeyExpansion" label="KeyExpansion_label0" functionLabel="">
+            <pragma name="UNROLL"/>
+        </directive>
+        <directive functionName="conv_1dTostate" label="conv_1dTostate_label0" functionLabel="">
+            <pragma name="UNROLL"/>
+        </directive>
+        <directive functionName="conv_1dTostate" label="conv_1dTostate_label1" functionLabel="">
+            <pragma name="UNROLL"/>
+        </directive>
+        <directive functionName="conv_stateTo1d" label="conv_stateTo1d_label2" functionLabel="">
+            <pragma name="UNROLL"/>
+        </directive>
+        <directive functionName="conv_stateTo1d" label="conv_stateTo1d_label3" functionLabel="">
+            <pragma name="UNROLL"/>
+        </directive>
+        <directive functionName="MixColumns" label="MixColumns_label0" functionLabel="">
+            <pragma name="UNROLL"/>
+        </directive>
+        <directive functionName="AES_CTR_xcrypt_buffer" label="AES_CTR_xcrypt_buffer_label5" functionLabel="">
+            <pragma name="UNROLL"/>
+        </directive>
+        <directive functionName="ShiftRows" label="" functionLabel="">
+            <pragma name="INLINE"/>
+        </directive>
+        <directive functionName="Cipher" label="" functionLabel="">
+            <pragma name="INLINE"/>
+        </directive>
+        <directive functionName="KeyExpansion" label="KeyExpansion_label1" functionLabel="">
+            <pragma name="UNROLL"/>
+        </directive>
+    </sourceFile>
+</AutoPilot:ProjectResources>
+

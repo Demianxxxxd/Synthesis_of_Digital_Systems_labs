@@ -1,0 +1,588 @@
+{
+  "Top": "aes_ha",
+  "RtlTop": "aes_ha",
+  "RtlPrefix": "",
+  "SourceLanguage": "c",
+  "ResetStyle": "control",
+  "GenerateBdFiles": "0",
+  "HostMachineBits": "64",
+  "Target": {
+    "Family": "spartan7",
+    "Device": "xc7s15",
+    "Package": "-ftgb196",
+    "Speed": "-2"
+  },
+  "HlsSolution": {
+    "DirectiveTcl": [
+      "set_directive_unroll AddRoundKey\/AddRoundKey_label0 ",
+      "set_directive_unroll AddRoundKey\/AddRoundKey_label1 ",
+      "set_directive_unroll SubBytes\/SubBytes_label2 ",
+      "set_directive_unroll SubBytes\/SubBytes_label3 ",
+      "set_directive_unroll KeyExpansion\/KeyExpansion_label0 ",
+      "set_directive_inline Cipher ",
+      "set_directive_unroll conv_1dTostate\/conv_1dTostate_label0 ",
+      "set_directive_unroll conv_1dTostate\/conv_1dTostate_label1 ",
+      "set_directive_unroll conv_stateTo1d\/conv_stateTo1d_label2 ",
+      "set_directive_unroll conv_stateTo1d\/conv_stateTo1d_label3 ",
+      "set_directive_unroll MixColumns\/MixColumns_label0 ",
+      "set_directive_unroll KeyExpansion\/KeyExpansion_label1 ",
+      "set_directive_inline ShiftRows ",
+      "set_directive_unroll AES_CTR_xcrypt_buffer\/AES_CTR_xcrypt_buffer_label5 ",
+      "set_directive_inline Cipher\/Cipher_label0 ",
+      "set_directive_unroll AES_CBC_decrypt_buffer\/AES_CBC_decrypt_buffer_label0 ",
+      "set_directive_unroll AES_CBC_encrypt_buffer\/AES_CBC_encrypt_buffer_label1 ",
+      "set_directive_unroll AES_CTR_xcrypt_buffer\/AES_CTR_xcrypt_buffer_label2 ",
+      "set_directive_unroll XorWithIv\/XorWithIv_label3 ",
+      "set_directive_unroll InvSubBytes\/InvSubBytes_label4 ",
+      "set_directive_unroll InvSubBytes\/InvSubBytes_label5 ",
+      "set_directive_unroll InvMixColumns\/InvMixColumns_label6 ",
+      "set_directive_inline xtime ",
+      "set_directive_inline InvCipher\/InvCipher_label8 ",
+      "set_directive_inline AddRoundKey ",
+      "set_directive_inline SubBytes ",
+      "set_directive_unroll _memcpy\/_memcpy_label9 ",
+      "set_directive_inline MixColumns ",
+      "set_directive_inline AES_ctx_set_iv ",
+      "set_directive_inline AES_init_ctx_iv ",
+      "set_directive_inline AES_init_ctx ",
+      "set_directive_inline InvMixColumns ",
+      "set_directive_inline InvSubBytes ",
+      "set_directive_inline conv_1dTostate ",
+      "set_directive_inline conv_stateTo1d ",
+      "set_directive_inline InvShiftRows ",
+      "set_directive_inline InvCipher ",
+      "set_directive_array_partition KeyExpansion ",
+      "set_directive_inline AES_CTR_xcrypt_buffer ",
+      "set_directive_inline KeyExpansion "
+    ],
+    "DirectiveInfo": [
+      "unroll AddRoundKey\/AddRoundKey_label0 {} {}",
+      "unroll AddRoundKey\/AddRoundKey_label1 {} {}",
+      "unroll SubBytes\/SubBytes_label2 {} {}",
+      "unroll SubBytes\/SubBytes_label3 {} {}",
+      "unroll KeyExpansion\/KeyExpansion_label0 {} {}",
+      "inline Cipher {} {}",
+      "unroll conv_1dTostate\/conv_1dTostate_label0 {} {}",
+      "unroll conv_1dTostate\/conv_1dTostate_label1 {} {}",
+      "unroll conv_stateTo1d\/conv_stateTo1d_label2 {} {}",
+      "unroll conv_stateTo1d\/conv_stateTo1d_label3 {} {}",
+      "unroll MixColumns\/MixColumns_label0 {} {}",
+      "unroll KeyExpansion\/KeyExpansion_label1 {} {}",
+      "inline ShiftRows {} {}",
+      "unroll AES_CTR_xcrypt_buffer\/AES_CTR_xcrypt_buffer_label5 {} {}",
+      "inline Cipher\/Cipher_label0 {} {}",
+      "unroll AES_CBC_decrypt_buffer\/AES_CBC_decrypt_buffer_label0 {} {}",
+      "unroll AES_CBC_encrypt_buffer\/AES_CBC_encrypt_buffer_label1 {} {}",
+      "unroll AES_CTR_xcrypt_buffer\/AES_CTR_xcrypt_buffer_label2 {} {}",
+      "unroll XorWithIv\/XorWithIv_label3 {} {}",
+      "unroll InvSubBytes\/InvSubBytes_label4 {} {}",
+      "unroll InvSubBytes\/InvSubBytes_label5 {} {}",
+      "unroll InvMixColumns\/InvMixColumns_label6 {} {}",
+      "inline xtime {} {}",
+      "inline InvCipher\/InvCipher_label8 {} {}",
+      "inline AddRoundKey {} {}",
+      "inline SubBytes {} {}",
+      "unroll _memcpy\/_memcpy_label9 {} {}",
+      "inline MixColumns {} {}",
+      "inline AES_ctx_set_iv {} {}",
+      "inline AES_init_ctx_iv {} {}",
+      "inline AES_init_ctx {} {}",
+      "inline InvMixColumns {} {}",
+      "inline InvSubBytes {} {}",
+      "inline conv_1dTostate {} {}",
+      "inline conv_stateTo1d {} {}",
+      "inline InvShiftRows {} {}",
+      "inline InvCipher {} {}",
+      "array_partition KeyExpansion {{partition positionBooleanCmd} {variable positionBooleanTextRequiredtempa} {complete positionBoolean0type} {dim 1}} {}",
+      "inline AES_CTR_xcrypt_buffer {} {}",
+      "inline KeyExpansion {} {}"
+    ]
+  },
+  "Args": {
+    "key": {
+      "index": "0",
+      "type": {
+        "kinds": ["array"],
+        "dataType": "unsigned",
+        "dataWidth": "8",
+        "arraySizes": ["16"],
+        "interfaceRef": "s_axi_slv",
+        "memoryRef": "key"
+      }
+    },
+    "iv": {
+      "index": "1",
+      "type": {
+        "kinds": ["array"],
+        "dataType": "unsigned",
+        "dataWidth": "8",
+        "arraySizes": ["16"],
+        "interfaceRef": "s_axi_slv",
+        "memoryRef": "iv"
+      }
+    },
+    "inout": {
+      "index": "2",
+      "type": {
+        "kinds": ["array"],
+        "dataType": "unsigned",
+        "dataWidth": "8",
+        "arraySizes": ["16"],
+        "interfaceRef": "s_axi_slv",
+        "memoryRef": "inout_r"
+      }
+    }
+  },
+  "Return": {
+    
+  },
+  "ClockInfo": {
+    "ClockName": "ap_clk",
+    "ClockPeriod": "10",
+    "IsCombLogic": "0",
+    "II": "x",
+    "Latency": "200",
+    "Uncertainty": "1.25"
+  },
+  "Xdc": {"OocClocks": ["create_clock -name ap_clk -period 10.000 [get_ports ap_clk]"]},
+  "Ipx": {
+    "Vendor": "xilinx.com",
+    "Library": "hls",
+    "Name": "aes_ha",
+    "Version": "1.0",
+    "DisplayName": "Aes_ha",
+    "Revision": "",
+    "Description": "An IP generated by Vivado HLS",
+    "Taxonomy": "\/VIVADO_HLS_IP",
+    "AutoFamilySupport": ""
+  },
+  "Files": {
+    "CSource": [
+      "..\/..\/c_src\/aes.c",
+      "..\/..\/hls\/basic\/aes_ha.c"
+    ],
+    "Vhdl": [
+      "impl\/vhdl\/aes_ha_ctx_Iv.vhd",
+      "impl\/vhdl\/aes_ha_ctx_RoundKey.vhd",
+      "impl\/vhdl\/aes_ha_sbox.vhd",
+      "impl\/vhdl\/aes_ha_slv_s_axi.vhd",
+      "impl\/vhdl\/aes_ha.vhd"
+    ],
+    "Verilog": [
+      "impl\/verilog\/aes_ha_ctx_Iv.v",
+      "impl\/verilog\/aes_ha_ctx_RoundKey.v",
+      "impl\/verilog\/aes_ha_sbox.v",
+      "impl\/verilog\/aes_ha_sbox_rom.dat",
+      "impl\/verilog\/aes_ha_slv_s_axi.v",
+      "impl\/verilog\/aes_ha.v"
+    ],
+    "SwDriver": [
+      "impl\/misc\/drivers\/aes_ha_v1_0\/data\/aes_ha.mdd",
+      "impl\/misc\/drivers\/aes_ha_v1_0\/data\/aes_ha.tcl",
+      "impl\/misc\/drivers\/aes_ha_v1_0\/src\/Makefile",
+      "impl\/misc\/drivers\/aes_ha_v1_0\/src\/xaes_ha.c",
+      "impl\/misc\/drivers\/aes_ha_v1_0\/src\/xaes_ha.h",
+      "impl\/misc\/drivers\/aes_ha_v1_0\/src\/xaes_ha_hw.h",
+      "impl\/misc\/drivers\/aes_ha_v1_0\/src\/xaes_ha_linux.c",
+      "impl\/misc\/drivers\/aes_ha_v1_0\/src\/xaes_ha_sinit.c"
+    ],
+    "Misc": ["impl\/misc\/logo.png"],
+    "DesignXml": "\/nas\/ei\/share\/TUEIEDA\/LabSDS\/ST23\/ge42beg\/lab-module-3\/hls\/aes_ha_basic_prj\/sol3\/.autopilot\/db\/aes_ha.design.xml",
+    "DebugDir": "\/nas\/ei\/share\/TUEIEDA\/LabSDS\/ST23\/ge42beg\/lab-module-3\/hls\/aes_ha_basic_prj\/sol3\/.debug",
+    "ProtoInst": ["\/nas\/ei\/share\/TUEIEDA\/LabSDS\/ST23\/ge42beg\/lab-module-3\/hls\/aes_ha_basic_prj\/sol3\/.debug\/aes_ha.protoinst"]
+  },
+  "SubcoreInfo": {
+    "HasXpmMemory": false,
+    "HasClockedDsp": false,
+    "IP": []
+  },
+  "Interfaces": {
+    "ap_clk": {
+      "type": "clock",
+      "ctype": {"CLK": {"Type": "bool"}},
+      "bundle_name": "ap_clk",
+      "bundle_role": "default",
+      "buses": "s_axi_slv",
+      "reset": "ap_rst_n"
+    },
+    "ap_rst_n": {
+      "type": "reset",
+      "polarity": "ACTIVE_LOW",
+      "ctype": {"RST": {"Type": "bool"}},
+      "bundle_name": "ap_rst_n",
+      "bundle_role": "default"
+    },
+    "interrupt": {
+      "type": "interrupt",
+      "ctype": {"INTERRUPT": {"Type": "bool"}},
+      "bundle_name": "slv",
+      "bundle_role": "interrupt"
+    },
+    "s_axi_slv": {
+      "type": "axi4lite",
+      "is_adaptor": "true",
+      "mode": "slave",
+      "port_prefix": "s_axi_slv",
+      "param_prefix": "C_S_AXI_SLV",
+      "addr_bits": "6",
+      "registers": [
+        {
+          "offset": "0x00",
+          "name": "CTRL",
+          "access": "RW",
+          "reset_value": "0x0",
+          "description": "Control signals",
+          "fields": [
+            {
+              "offset": "0",
+              "width": "1",
+              "name": "AP_START",
+              "access": "RW",
+              "reset_value": "0",
+              "description": "Control signal Register for 'ap_start'."
+            },
+            {
+              "offset": "1",
+              "width": "1",
+              "name": "AP_DONE",
+              "access": "R",
+              "reset_value": "0",
+              "description": "Control signal Register for 'ap_done'."
+            },
+            {
+              "offset": "2",
+              "width": "1",
+              "name": "AP_IDLE",
+              "access": "R",
+              "reset_value": "0",
+              "description": "Control signal Register for 'ap_idle'."
+            },
+            {
+              "offset": "3",
+              "width": "1",
+              "name": "AP_READY",
+              "access": "R",
+              "reset_value": "0",
+              "description": "Control signal Register for 'ap_ready'."
+            },
+            {
+              "offset": "4",
+              "width": "3",
+              "name": "RESERVED_1",
+              "access": "R",
+              "reset_value": "0",
+              "description": "Reserved.  0s on read."
+            },
+            {
+              "offset": "7",
+              "width": "1",
+              "name": "AUTO_RESTART",
+              "access": "RW",
+              "reset_value": "0",
+              "description": "Control signal Register for 'auto_restart'."
+            },
+            {
+              "offset": "8",
+              "width": "24",
+              "name": "RESERVED_2",
+              "access": "R",
+              "reset_value": "0",
+              "description": "Reserved.  0s on read."
+            }
+          ]
+        },
+        {
+          "offset": "0x04",
+          "name": "GIER",
+          "access": "RW",
+          "reset_value": "0x0",
+          "description": "Global Interrupt Enable Register",
+          "fields": [
+            {
+              "offset": "0",
+              "width": "1",
+              "name": "Enable",
+              "access": "RW",
+              "reset_value": "0",
+              "description": "Master enable for the device interrupt output to the system interrupt controller: 0 = Disabled, 1 = Enabled"
+            },
+            {
+              "offset": "1",
+              "width": "31",
+              "name": "RESERVED",
+              "access": "R",
+              "reset_value": "0",
+              "description": "Reserved.  0s on read."
+            }
+          ]
+        },
+        {
+          "offset": "0x08",
+          "name": "IP_IER",
+          "access": "RW",
+          "reset_value": "0x0",
+          "description": "IP Interrupt Enable Register",
+          "fields": [
+            {
+              "offset": "0",
+              "width": "1",
+              "name": "CHAN0_INT_EN",
+              "access": "RW",
+              "reset_value": "0",
+              "description": "Enable Channel 0 (ap_done) Interrupt.  0 = Disabled, 1 = Enabled."
+            },
+            {
+              "offset": "1",
+              "width": "1",
+              "name": "CHAN1_INT_EN",
+              "access": "RW",
+              "reset_value": "0",
+              "description": "Enable Channel 1 (ap_ready) Interrupt.  0 = Disabled, 1 = Enabled."
+            },
+            {
+              "offset": "2",
+              "width": "30",
+              "name": "RESERVED",
+              "access": "R",
+              "reset_value": "0",
+              "description": "Reserved.  0s on read."
+            }
+          ]
+        },
+        {
+          "offset": "0x0c",
+          "name": "IP_ISR",
+          "access": "RW",
+          "reset_value": "0x0",
+          "description": "IP Interrupt Status Register",
+          "fields": [
+            {
+              "offset": "0",
+              "width": "1",
+              "name": "CHAN0_INT_ST",
+              "access": "RTOW",
+              "reset_value": "0",
+              "description": "Channel 0 (ap_done) Interrupt Status. 0 = No Channel 0 input interrupt, 1 = Channel 0 input interrup"
+            },
+            {
+              "offset": "1",
+              "width": "1",
+              "name": "CHAN1_INT_ST",
+              "access": "RTOW",
+              "reset_value": "0",
+              "description": "Channel 1 (ap_ready) Interrupt Status. 0 = No Channel 1 input interrupt, 1 = Channel 1 input interrup"
+            },
+            {
+              "offset": "2",
+              "width": "30",
+              "name": "RESERVED",
+              "access": "R",
+              "reset_value": "0",
+              "description": "Reserved.  0s on read."
+            }
+          ]
+        }
+      ],
+      "memories": {
+        "key": {
+          "offset": "16",
+          "range": "16"
+        },
+        "iv": {
+          "offset": "32",
+          "range": "16"
+        },
+        "inout_r": {
+          "offset": "48",
+          "range": "16"
+        }
+      },
+      "ctype": {
+        "AWVALID": {"Type": "bool"},
+        "AWREADY": {"Type": "bool"},
+        "WVALID": {"Type": "bool"},
+        "WREADY": {"Type": "bool"},
+        "BVALID": {"Type": "bool"},
+        "BREADY": {"Type": "bool"},
+        "BRESP": {
+          "Type": "integer unsigned",
+          "Width": "2"
+        },
+        "ARVALID": {"Type": "bool"},
+        "ARREADY": {"Type": "bool"},
+        "RVALID": {"Type": "bool"},
+        "RREADY": {"Type": "bool"},
+        "RRESP": {
+          "Type": "integer unsigned",
+          "Width": "2"
+        },
+        "AWADDR": {
+          "Type": "integer unsigned",
+          "Width": "6"
+        },
+        "WDATA": {
+          "Type": "integer unsigned",
+          "Width": "8"
+        },
+        "WSTRB": {
+          "Type": "integer unsigned",
+          "Width": "4"
+        },
+        "ARADDR": {
+          "Type": "integer unsigned",
+          "Width": "6"
+        },
+        "RDATA": {
+          "Type": "integer unsigned",
+          "Width": "8"
+        }
+      },
+      "data_width": "32",
+      "port_width": {
+        "ARADDR": "6",
+        "AWADDR": "6",
+        "RDATA": "32",
+        "WDATA": "32",
+        "WSTRB": "4"
+      }
+    }
+  },
+  "RtlPorts": {
+    "s_axi_slv_AWVALID": {
+      "dir": "in",
+      "width": "1"
+    },
+    "s_axi_slv_AWREADY": {
+      "dir": "out",
+      "width": "1"
+    },
+    "s_axi_slv_AWADDR": {
+      "dir": "in",
+      "width": "6"
+    },
+    "s_axi_slv_WVALID": {
+      "dir": "in",
+      "width": "1"
+    },
+    "s_axi_slv_WREADY": {
+      "dir": "out",
+      "width": "1"
+    },
+    "s_axi_slv_WDATA": {
+      "dir": "in",
+      "width": "32"
+    },
+    "s_axi_slv_WSTRB": {
+      "dir": "in",
+      "width": "4"
+    },
+    "s_axi_slv_ARVALID": {
+      "dir": "in",
+      "width": "1"
+    },
+    "s_axi_slv_ARREADY": {
+      "dir": "out",
+      "width": "1"
+    },
+    "s_axi_slv_ARADDR": {
+      "dir": "in",
+      "width": "6"
+    },
+    "s_axi_slv_RVALID": {
+      "dir": "out",
+      "width": "1"
+    },
+    "s_axi_slv_RREADY": {
+      "dir": "in",
+      "width": "1"
+    },
+    "s_axi_slv_RDATA": {
+      "dir": "out",
+      "width": "32"
+    },
+    "s_axi_slv_RRESP": {
+      "dir": "out",
+      "width": "2"
+    },
+    "s_axi_slv_BVALID": {
+      "dir": "out",
+      "width": "1"
+    },
+    "s_axi_slv_BREADY": {
+      "dir": "in",
+      "width": "1"
+    },
+    "s_axi_slv_BRESP": {
+      "dir": "out",
+      "width": "2"
+    },
+    "ap_clk": {
+      "dir": "in",
+      "width": "1"
+    },
+    "ap_rst_n": {
+      "dir": "in",
+      "width": "1"
+    },
+    "interrupt": {
+      "dir": "out",
+      "width": "1",
+      "isVector": "true"
+    }
+  },
+  "ModuleInfo": {
+    "Hierarchy": {"ModuleName": "aes_ha"},
+    "Info": {"aes_ha": {
+        "FunctionProtocol": "ap_ctrl_hs",
+        "isTaskLevelControl": "1",
+        "isPipelined": "0",
+        "isCombinational": "0",
+        "isOneStateSeq": "0"
+      }},
+    "Metrics": {"aes_ha": {
+        "Latency": {
+          "LatencyBest": "200",
+          "LatencyAvg": "205",
+          "LatencyWorst": "207",
+          "PipelineIIMin": "201",
+          "PipelineIIMax": "208",
+          "PipelineII": "201 ~ 208",
+          "PipelineDepth": "",
+          "PipelineType": "none"
+        },
+        "Timing": {
+          "Target": "10.00",
+          "Uncertainty": "1.25",
+          "Estimate": "7.132"
+        },
+        "Loops": [{
+            "Name": "Cipher_label0",
+            "TripCount": "9",
+            "Latency": "91",
+            "PipelineII": "",
+            "PipelineDepth": "10"
+          }],
+        "Area": {
+          "BRAM_18K": "16",
+          "FF": "2242",
+          "LUT": "6464",
+          "URAM": "0",
+          "DSP48E": "0"
+        }
+      }}
+  },
+  "Sdx": {
+    "Target": "none",
+    "ProfileOption": "0",
+    "ProfileType": "none",
+    "XO": "",
+    "KernelName": "aes_ha",
+    "EnableXoSwEmu": "1"
+  },
+  "GenData": {
+    "DataVersion": "0.2",
+    "Time": "2023-07-10 15:16:33 CEST",
+    "ToolName": "vivado_hls",
+    "ToolVersion": "2019.1"
+  }
+}

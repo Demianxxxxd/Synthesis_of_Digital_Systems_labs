@@ -1,0 +1,9 @@
+{"sourceFile": [{
+      "name": "",
+      "directive": [{
+          "functionName": "aes_ha",
+          "label": "",
+          "functionLabel": "",
+          "pragma": {"name": "PIPELINE"}
+        }]
+    }]}
